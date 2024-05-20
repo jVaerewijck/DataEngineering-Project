@@ -1,43 +1,28 @@
-
 -- Schema aanmaken indien het nog niet bestaat
-CREATE SCHEMA IF NOT EXISTS archived;
+CREATE SCHEMA IF NOT EXISTS star;
 
 -- Tabellen verwijderen indien ze bestaan
-DROP TABLE IF EXISTS archived.aankomst, archived.banen, archived.klant, archived.luchthavens, archived.maatschappijen, archived.planning, archived.vertrek, archived.vliegtuig, archived.vliegtuigtype, archived.vlucht, archived.weer CASCADE;
+DROP TABLE IF EXISTS star.aankomst, star.banen, star.klant, star.luchthavens, star.maatschappijen, star.planning, star.vertrek, star.vliegtuig, star.vliegtuigtype, star.vlucht, star.weer CASCADE;
 
-
-CREATE TABLE archived.aankomst (
-    "Vluchtid" VARCHAR(10),         -- 6 karakters lang, gebaseerd op de langste waarde 936013
-    "Vliegtuigcode" VARCHAR(10),    -- 6 karakters lang, zoals VKL859
-    "Terminal" VARCHAR(1),         -- 1 karakter lang, zoals A, B, C
-    "Gate" VARCHAR(2),             -- 2 karakters lang, zoals C1, A2
-    "Baan" VARCHAR(1),             -- 1 karakter lang, voor de baan nummers
-    "Bezetting" VARCHAR(3),        -- Maximaal 3 karakters, voor getallen zoals 71
-    "Vracht" VARCHAR(3),           -- Lijkt leeg te zijn in de dataset, maar reserveer 1 karakter voor consistentie
-    "Aankomsttijd" VARCHAR(19)     -- Datum en tijd in het formaat "YYYY-MM-DD HH:MM:SS"
-);
-
-
-CREATE TABLE archived.banen (
-    "Baannummer" VARCHAR(1),      -- 1 karakter lang, voor baannummers 1-6
+CREATE TABLE star.banen (
+    "Baannummer" INT PRIMARY KEY,      -- 1 karakter lang, voor baannummers 1-6
     "Code" VARCHAR(7),            -- 7 karakters lang, zoals '18R-36L'
     "Naam" VARCHAR(30),           -- Geschatte lengte voor namen zoals 'Stépan Breedveldbaan'
     "Lengte" VARCHAR(4)           -- 4 karakters lang, voldoende voor getallen zoals 3600
 );
 
-CREATE TABLE archived.klant (
-    "Vluchtid" VARCHAR(7),      -- 7 karakters lang, gebaseerd op de langste waarde 1317406
+CREATE TABLE star.klant (
+    "Vluchtid" INT PRIMARY KEY,      -- 7 karakters lang, gebaseerd op de langste waarde 1317406
     "Operatie" VARCHAR(3),      -- 3 karakters lang, bijv. '7.2'
     "Faciliteiten" VARCHAR(3),  -- 3 karakters lang, bijv. '8.5'
     "Shops" VARCHAR(3)          -- 3 karakters lang, maximaal nodig voor getallen zoals '6.9'
 );
 
-
-CREATE TABLE archived.luchthavens (
+CREATE TABLE star.luchthavens (
     "Airport" VARCHAR(100),     -- Geschatte lengte voor namen zoals 'Bamyan Airport'
     "City" VARCHAR(100),        -- Geschatte lengte voor stadsnamen zoals 'Bamyan'
     "Country" VARCHAR(100),     -- Geschatte lengte voor landnamen zoals 'Afghanistan'
-    "IATA" VARCHAR(100),         -- 3 karakters, bijv. 'BIN'
+    "IATA" VARCHAR(100) PRIMARY KEY,         -- 3 karakters, bijv. 'BIN'
     "ICAO" VARCHAR(100),         -- 4 karakters, bijv. 'OABN'
     "Lat" VARCHAR(100),         -- Lengte voor breedtegraden zoals '34.816667'
     "Lon" VARCHAR(100),         -- Lengte voor lengtegraden zoals '67.816667'
@@ -47,43 +32,14 @@ CREATE TABLE archived.luchthavens (
     "Tz" VARCHAR(100)           -- Geschatte lengte voor tijdzone namen zoals 'Asia/Kabul'
 );
 
-
-CREATE TABLE archived.maatschappijen (
+CREATE TABLE star.maatschappijen (
     "Name" VARCHAR(50),     -- Voldoende lengte om namen zoals "Tom's & co airliners" te bevatten
-    "IATA" VARCHAR(3),      -- 3 karakters, rekening houdend met bijzondere invoeren zoals '&T'
+    "IATA" VARCHAR(3) PRIMARY KEY,      -- 3 karakters, rekening houdend met bijzondere invoeren zoals '&T'
     "ICAO" VARCHAR(3)       -- 3 karakters, voor standaard ICAO codes, zelfs met invoeren zoals 'N/A' of '\N'
 );
 
-CREATE TABLE archived.planning (
-    "Vluchtnr" VARCHAR(10),      -- 6 karakters lang, genoeg voor waarden zoals '9W2888'
-    "Airlinecode" VARCHAR(4),   -- 2 karakters lang, zoals '9W'
-    "Destcode" VARCHAR(3),      -- 3 karakters, standaard IATA luchthaven codes zoals 'DEL'
-    "Planterminal" VARCHAR(1),  -- 1 karakter, zoals 'D'
-    "Plangate" VARCHAR(2),      -- 2 karakters, zoals 'D2'
-    "Plantijd" VARCHAR(8)       -- 8 karakters, ruimte voor tijden zoals '2:10 PM'
-);
-
-CREATE TABLE archived.vertrek (
-    "Vluchtid" VARCHAR(10),       -- 6 karakters lang, gebaseerd op de langste waarde zoals '935995'
-    "Vliegtuigcode" VARCHAR(10),  -- 7 karakters lang, zoals 'VEZY741'
-    "Terminal" VARCHAR(1),       -- 1 karakter lang, zoals 'B'
-    "Gate" VARCHAR(2),           -- 2 karakters lang, zoals 'B5'
-    "Baan" VARCHAR(1),           -- 1 karakter lang, voor baan nummers zoals '2'
-    "Bezetting" VARCHAR(3),      -- Maximaal 3 karakters, voor getallen zoals '85'
-    "Vracht" VARCHAR(4),         -- 1 karakter lang, lijkt leeg te zijn in de dataset maar voor consistentie
-    "Vertrektijd" VARCHAR(19)    -- Datum en tijd in het formaat "YYYY-MM-DD HH:MM:SS", zoals '2014-01-01 03:33:00'
-);
-
-
-CREATE TABLE archived.vliegtuig (
-    "Airlinecode" VARCHAR(5),     -- 2 karakters lang, zoals 'TK'
-    "Vliegtuigcode" VARCHAR(10),   -- 7 karakters lang, zoals 'VDL5829'
-    "Vliegtuigtype" VARCHAR(5),   -- 3 karakters lang, voor typeaanduidingen zoals '321'
-    "Bouwjaar" VARCHAR(4)         -- 4 karakters lang, voor het bouwjaar zoals '1970'
-);
-
-CREATE TABLE archived.vliegtuigtype (
-    "IATA" VARCHAR(10),        -- 3 karakters lang, zoals '100'
+CREATE TABLE star.vliegtuigtype (
+    "IATA" VARCHAR(10) PRIMARY KEY,        -- 3 karakters lang, zoals '100'
     "ICAO" VARCHAR(10),        -- 4 karakters lang, zoals 'F100'
     "Merk" VARCHAR(30),       -- Geschatte lengte voor merknamen zoals 'British Aerospace'
     "Type" VARCHAR(100),       -- Geschatte lengte voor types zoals 'BAe 146-200 Pax'
@@ -93,17 +49,33 @@ CREATE TABLE archived.vliegtuigtype (
     "Vracht" VARCHAR(4)       -- Voldoende voor kleine getallen zoals '5'
 );
 
-CREATE TABLE archived.vlucht (
-    "Vluchtid" VARCHAR(10),        -- 6 karakters lang, zoals '935995'
+CREATE TABLE star.vlucht (
+    "Vluchtid" INT PRIMARY KEY,        -- 6 karakters lang, zoals '935995'
     "Vluchtnr" VARCHAR(10),        -- 6 karakters lang, zoals 'EZY741'
+    "Vliegtuigcode" VARCHAR(10),   -- 7 karakters lang, zoals 'VEZY741'
+    "Vliegtuigtype" VARCHAR(5),   -- 3 karakters lang, voor typeaanduidingen zoals '321'
+    "Bouwjaar" VARCHAR(4),         -- 4 karakters lang, voor het bouwjaar zoals '1970'
+    "Terminal" VARCHAR(1),       -- 1 karakter lang, zoals 'B'
+    "Gate" VARCHAR(2),           -- 2 karakters lang, zoals 'B5'
+    "Baan" VARCHAR(1),           -- 1 karakter lang, voor baan nummers zoals '2'
+    "Bezetting" VARCHAR(3),      -- Maximaal 3 karakters, voor getallen zoals '85'
+    "Vracht" VARCHAR(4),         -- 1 karakter lang, lijkt leeg te zijn in de dataset maar voor consistentie
+    "Plantijd" VARCHAR(8),       -- 8 karakters, ruimte voor tijden zoals '2:10 PM'
+    "Aankomsttijd" VARCHAR(19),     -- Datum en tijd in het formaat "YYYY-MM-DD HH:MM:SS"
+    "Vertrektijd" VARCHAR(19),    -- Datum en tijd in het formaat "YYYY-MM-DD HH:MM:SS", zoals '2014-01-01 03:33:00'
     "Airlinecode" VARCHAR(5),     -- 3 karakters lang, zoals 'EZY'
     "Destcode" VARCHAR(5),        -- 3 karakters, voor luchthavencodes zoals 'ACE'
-    "Vliegtuigcode" VARCHAR(10),   -- 7 karakters lang, zoals 'VEZY741'
-    "Datum" VARCHAR(10)           -- Datum in het formaat "YYYY-MM-DD", zoals '2014-01-01'
+    "Datum" VARCHAR(10),           -- Datum in het formaat "YYYY-MM-DD", zoals '2014-01-01'
+    FOREIGN KEY ("Vluchtid") REFERENCES star.klant("Vluchtid"),
+    FOREIGN KEY ("Vliegtuigtype") REFERENCES star.vliegtuigtype("IATA"),
+    FOREIGN KEY ("Baan") REFERENCES star.banen("Baannummer"),
+    FOREIGN KEY ("Airlinecode") REFERENCES star.maatschappijen("IATA"),
+    FOREIGN KEY ("Destcode") REFERENCES star.luchthavens("IATA"),
+    FOREIGN KEY ("Datum") REFERENCES star.weer("Datum")
 );
 
-CREATE TABLE archived.weer (
-    "Datum" VARCHAR(10),     -- Datum in het formaat "YYYY-MM-DD"
+CREATE TABLE star.weer (
+    "Datum" VARCHAR(10) PRIMARY KEY,     -- Datum in het formaat "YYYY-MM-DD"
     "DDVEC" VARCHAR(3),      -- Windrichting in graden
     "FHVEC" VARCHAR(3),      -- Uurgemiddelde windsnelheid (in 0.1 m/s)
     "FG" VARCHAR(3),         -- Daggemiddelde windsnelheid (in 0.1 m/s)

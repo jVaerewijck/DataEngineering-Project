@@ -8,7 +8,7 @@ DROP TABLE IF EXISTS raw.aankomst, raw.banen, raw.klant, raw.luchthavens, raw.ma
 
 CREATE TABLE raw.aankomst (
     "Vluchtid" VARCHAR(10),         -- 6 karakters lang, gebaseerd op de langste waarde 936013
-    "Vliegtuigcode" VARCHAR(8),    -- 6 karakters lang, zoals VKL859
+    "Vliegtuigcode" VARCHAR(10),    -- 6 karakters lang, zoals VKL859
     "Terminal" VARCHAR(1),         -- 1 karakter lang, zoals A, B, C
     "Gate" VARCHAR(2),             -- 2 karakters lang, zoals C1, A2
     "Baan" VARCHAR(1),             -- 1 karakter lang, voor de baan nummers
