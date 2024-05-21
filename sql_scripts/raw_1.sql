@@ -1,12 +1,12 @@
 
 -- Schema aanmaken indien het nog niet bestaat
-CREATE SCHEMA IF NOT EXISTS raw;
+CREATE SCHEMA IF NOT EXISTS raw_1;
 
 -- Tabellen verwijderen indien ze bestaan
-DROP TABLE IF EXISTS raw.aankomst, raw.banen, raw.klant, raw.luchthavens, raw.maatschappijen, raw.planning, raw.vertrek, raw.vliegtuig, raw.vliegtuigtype, raw.vlucht, raw.weer CASCADE;
+DROP TABLE IF EXISTS raw_1.aankomst, raw_1.banen, raw_1.klant, raw_1.luchthavens, raw_1.maatschappijen, raw_1.planning, raw_1.vertrek, raw_1.vliegtuig, raw_1.vliegtuigtype, raw_1.vlucht, raw_1.weer CASCADE;
 
 
-CREATE TABLE raw.aankomst (
+CREATE TABLE raw_1.aankomst (
     "Vluchtid" VARCHAR(10),         -- 6 karakters lang, gebaseerd op de langste waarde 936013
     "Vliegtuigcode" VARCHAR(10),    -- 6 karakters lang, zoals VKL859
     "Terminal" VARCHAR(1),         -- 1 karakter lang, zoals A, B, C
@@ -18,14 +18,14 @@ CREATE TABLE raw.aankomst (
 );
 
 
-CREATE TABLE raw.banen (
+CREATE TABLE raw_1.banen (
     "Baannummer" VARCHAR(1),      -- 1 karakter lang, voor baannummers 1-6
     "Code" VARCHAR(7),            -- 7 karakters lang, zoals '18R-36L'
     "Naam" VARCHAR(30),           -- Geschatte lengte voor namen zoals 'Stépan Breedveldbaan'
     "Lengte" VARCHAR(4)           -- 4 karakters lang, voldoende voor getallen zoals 3600
 );
 
-CREATE TABLE raw.klant (
+CREATE TABLE raw_1.klant (
     "Vluchtid" VARCHAR(7),      -- 7 karakters lang, gebaseerd op de langste waarde 1317406
     "Operatie" VARCHAR(3),      -- 3 karakters lang, bijv. '7.2'
     "Faciliteiten" VARCHAR(3),  -- 3 karakters lang, bijv. '8.5'
@@ -33,7 +33,7 @@ CREATE TABLE raw.klant (
 );
 
 
-CREATE TABLE raw.luchthavens (
+CREATE TABLE raw_1.luchthavens (
     "Airport" VARCHAR(100),     -- Geschatte lengte voor namen zoals 'Bamyan Airport'
     "City" VARCHAR(100),        -- Geschatte lengte voor stadsnamen zoals 'Bamyan'
     "Country" VARCHAR(100),     -- Geschatte lengte voor landnamen zoals 'Afghanistan'
@@ -48,13 +48,13 @@ CREATE TABLE raw.luchthavens (
 );
 
 
-CREATE TABLE raw.maatschappijen (
+CREATE TABLE raw_1.maatschappijen (
     "Name" VARCHAR(50),     -- Voldoende lengte om namen zoals "Tom's & co airliners" te bevatten
     "IATA" VARCHAR(3),      -- 3 karakters, rekening houdend met bijzondere invoeren zoals '&T'
     "ICAO" VARCHAR(3)       -- 3 karakters, voor standaard ICAO codes, zelfs met invoeren zoals 'N/A' of '\N'
 );
 
-CREATE TABLE raw.planning (
+CREATE TABLE raw_1.planning (
     "Vluchtnr" VARCHAR(10),      -- 6 karakters lang, genoeg voor waarden zoals '9W2888'
     "Airlinecode" VARCHAR(4),   -- 2 karakters lang, zoals '9W'
     "Destcode" VARCHAR(3),      -- 3 karakters, standaard IATA luchthaven codes zoals 'DEL'
@@ -63,7 +63,7 @@ CREATE TABLE raw.planning (
     "Plantijd" VARCHAR(8)       -- 8 karakters, ruimte voor tijden zoals '2:10 PM'
 );
 
-CREATE TABLE raw.vertrek (
+CREATE TABLE raw_1.vertrek (
     "Vluchtid" VARCHAR(10),       -- 6 karakters lang, gebaseerd op de langste waarde zoals '935995'
     "Vliegtuigcode" VARCHAR(10),  -- 7 karakters lang, zoals 'VEZY741'
     "Terminal" VARCHAR(1),       -- 1 karakter lang, zoals 'B'
@@ -75,14 +75,14 @@ CREATE TABLE raw.vertrek (
 );
 
 
-CREATE TABLE raw.vliegtuig (
+CREATE TABLE raw_1.vliegtuig (
     "Airlinecode" VARCHAR(5),     -- 2 karakters lang, zoals 'TK'
     "Vliegtuigcode" VARCHAR(10),   -- 7 karakters lang, zoals 'VDL5829'
     "Vliegtuigtype" VARCHAR(5),   -- 3 karakters lang, voor typeaanduidingen zoals '321'
     "Bouwjaar" VARCHAR(4)         -- 4 karakters lang, voor het bouwjaar zoals '1970'
 );
 
-CREATE TABLE raw.vliegtuigtype (
+CREATE TABLE raw_1.vliegtuigtype (
     "IATA" VARCHAR(10),        -- 3 karakters lang, zoals '100'
     "ICAO" VARCHAR(10),        -- 4 karakters lang, zoals 'F100'
     "Merk" VARCHAR(30),       -- Geschatte lengte voor merknamen zoals 'British Aerospace'
@@ -93,7 +93,7 @@ CREATE TABLE raw.vliegtuigtype (
     "Vracht" VARCHAR(4)       -- Voldoende voor kleine getallen zoals '5'
 );
 
-CREATE TABLE raw.vlucht (
+CREATE TABLE raw_1.vlucht (
     "Vluchtid" VARCHAR(10),        -- 6 karakters lang, zoals '935995'
     "Vluchtnr" VARCHAR(10),        -- 6 karakters lang, zoals 'EZY741'
     "Airlinecode" VARCHAR(5),     -- 3 karakters lang, zoals 'EZY'
@@ -102,7 +102,7 @@ CREATE TABLE raw.vlucht (
     "Datum" VARCHAR(10)           -- Datum in het formaat "YYYY-MM-DD", zoals '2014-01-01'
 );
 
-CREATE TABLE raw.weer (
+CREATE TABLE raw_1.weer (
     "Datum" VARCHAR(10),     -- Datum in het formaat "YYYY-MM-DD"
     "DDVEC" VARCHAR(3),      -- Windrichting in graden
     "FHVEC" VARCHAR(3),      -- Uurgemiddelde windsnelheid (in 0.1 m/s)
