@@ -33,8 +33,8 @@ CREATE TABLE star.luchthavens (
 );
 
 CREATE TABLE star.maatschappijen (
-    "Name" VARCHAR(50),     -- Voldoende lengte om namen zoals "Tom's & co airliners" te bevatten
-    "IATA" VARCHAR(3) PRIMARY KEY,      -- 3 karakters, rekening houdend met bijzondere invoeren zoals '&T'
+    "Name" VARCHAR(50) PRIMARY KEY,     -- Voldoende lengte om namen zoals "Tom's & co airliners" te bevatten
+    "IATA" VARCHAR(3),      -- 3 karakters, rekening houdend met bijzondere invoeren zoals '&T'
     "ICAO" VARCHAR(3)       -- 3 karakters, voor standaard ICAO codes, zelfs met invoeren zoals 'N/A' of '\N'
 );
 
@@ -106,13 +106,14 @@ CREATE TABLE star.vlucht (
     "Type" VARCHAR(8),
     "Plantijd" TIME,       -- 8 karakters, ruimte voor tijden zoals '2:10 PM'
     "Tijd" TIMESTAMP,    -- Datum en tijd in het formaat "YYYY-MM-DD HH:MM:SS", zoals '2014-01-01 03:33:00'
-    "Airlinecode" VARCHAR(5),     -- 3 karakters lang, zoals 'EZY'
+    "Airlinename" VARCHAR(50),     -- 3 karakters lang, zoals 'EZY'
+    "Airlinecode" VARCHAR(5),
     "Destcode" VARCHAR(5),        -- 3 karakters, voor luchthavencodes zoals 'ACE'
     "Datum" DATE,           -- Datum in het formaat "YYYY-MM-DD", zoals '2014-01-01'
     FOREIGN KEY ("Vluchtid") REFERENCES star.klant("Vluchtid"),
     FOREIGN KEY ("Vliegtuigtype") REFERENCES star.vliegtuigtype("IATA"),
     FOREIGN KEY ("Baan") REFERENCES star.banen("Baannummer"),
-    FOREIGN KEY ("Airlinecode") REFERENCES star.maatschappijen("IATA"),
+    FOREIGN KEY ("Airlinename") REFERENCES star.maatschappijen("Name"),
     FOREIGN KEY ("Destcode") REFERENCES star.luchthavens("IATA"),
     FOREIGN KEY ("Datum") REFERENCES star.weer("Datum")
 );
